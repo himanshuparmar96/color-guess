@@ -21,6 +21,7 @@ function App() {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("error");
   const [score, setScore] = useState(0);
+
   useEffect(() => {
     const arr = [];
     for (let i = 0; i < TOTAL_BUTTONS; i++) {
@@ -38,6 +39,7 @@ function App() {
       setScore((score) => score + 1);
     } else {
       setSeverity("error");
+      setScore((score) => score - 0.5);
     }
     setOpen(true);
   }
