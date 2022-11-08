@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 
 export const Score = (props) => {
   // const [color, setColor] = useState();

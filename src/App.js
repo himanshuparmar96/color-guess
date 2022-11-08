@@ -1,10 +1,10 @@
-import "./App.css";
-import { Alert, Box, Button, Modal, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Modal, Snackbar, Typography } from "@mui/material";
 import _ from "lodash";
 import { useEffect, useState } from "react";
+import "./App.css";
+import { ColorButton } from "./colorButton";
 import { Score } from "./score";
 import { Timer } from "./timer";
-import { ColorButton } from "./colorButton";
 
 function getRandomColor() {
   const base = "0123456789abcdef";
@@ -36,7 +36,7 @@ function App() {
     var tt = setInterval(function () {
       startTime();
     }, 1000);
-    // console.log(tt);
+
     function startTime() {
       if (counter === 0) {
         setTimer(counter);

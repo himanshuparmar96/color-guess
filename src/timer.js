@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export const Timer = ({ timer }) => {
   return (
