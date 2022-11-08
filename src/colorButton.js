@@ -8,8 +8,8 @@ export const ColorButton = ({ validate, optionaColor }) => {
         {optionaColor.map((randomColor, index) => {
           return (
             <Button
+              variant="outlined"
               fullWidth
-              variant="contained"
               key={index}
               onClick={() => validate(randomColor)}
             >

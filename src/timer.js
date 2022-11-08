@@ -6,14 +6,17 @@ export const Timer = ({ timer }) => {
     <div>
       <Box
         sx={{
+          display: "flex",
           margin: 5,
           border: "1px solid green",
           height: 50,
           width: 200,
           backgroundColor: "grey",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        {timer}
+        Time Left:{timer}
       </Box>
     </div>
   );

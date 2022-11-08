@@ -64,6 +64,7 @@ function App() {
   }, [score]);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
+      // setScore(0);
       return;
     }
 
@@ -84,7 +85,7 @@ function App() {
 
   console.log(color);
   return (
-    <div>
+    <div style={{ border: "2px solid black" }}>
       {timer === 0 ? (
         <Modal
           open={open}
@@ -113,7 +114,7 @@ function App() {
           backgroundColor: color,
         }}
       >
-        <Score score={score} />
+        <Score score={score} timer={timer} />
         <Timer timer={timer} />
       </Box>
 
