@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { ToastContainer } from "react-toastify";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// const Wrapper = () => {
+//   const [enable, setEnable] = useState(true);
+//   return enable ? <App /> : <p>App state is disabled</p>;
+// };
 root.render(
   // <React.StrictMode>
-  <App />
+  <>
+    <App />
+    <ToastContainer />
+  </>
   // </React.StrictMode>
 );
 

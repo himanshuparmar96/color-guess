@@ -11,12 +11,13 @@ export const Timer = ({ timer }) => {
           border: "1px solid green",
           height: 50,
           width: 200,
-          backgroundColor: "grey",
+          backgroundColor: "black",
           justifyContent: "center",
           alignItems: "center",
+          color: "white",
         }}
       >
-        Time Left:{timer}
+        {timer} seconds left
       </Box>
     </div>
   );

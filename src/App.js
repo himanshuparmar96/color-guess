@@ -1,8 +1,11 @@
-import { Alert, Box, Modal, Snackbar, Typography } from "@mui/material";
+import styled from "@emotion/styled";
+import { Box, Modal, Typography } from "@mui/material";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import { ColorButton } from "./colorButton";
+import ColorButtons from "./ColorButtons";
 import { Score } from "./score";
 import { Timer } from "./timer";
 
@@ -29,22 +32,43 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-function App() {
-  const [timer, setTimer] = useState();
-  useEffect(() => {
-    var counter = 10;
-    var tt = setInterval(function () {
-      startTime();
-    }, 1000);
 
-    function startTime() {
-      if (counter === 0) {
-        setTimer(counter);
-        clearInterval(tt);
-      } else {
-        setTimer(counter--);
-      }
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "increment":
+      return state + 1;
+    case "decrement":
+      return state - 1;
+
+    default:
+      return state;
+  }
+};
+function App() {
+  // const interval=useRef()
+
+  const [timer, dispatchTimer] = useReducer(reducer, 10);
+  const [intervalTimer, setIntervalTimer] = useState(null);
+
+  const onTimeUpdated = useCallback(() => {
+    // console.log({ timer });
+
+    if (timer === 0) {
+      clearInterval(intervalTimer);
+      // setTimer(0);
+    } else {
+      dispatchTimer({ type: "decrement" });
     }
+    // console.count("setInterval");
+  }, [timer, intervalTimer]);
+
+  useEffect(() => {
+    reGenerate();
+    // const counter = 10;
+    const interval = setInterval(onTimeUpdated, 1000);
+    setIntervalTimer(interval);
+
+    return () => clearInterval(intervalTimer);
   }, []);
 
   const [color, setColor] = useState();
@@ -53,15 +77,6 @@ function App() {
   const [severity, setSeverity] = useState("error");
   const [score, setScore] = useState(0);
 
-  useEffect(() => {
-    const arr = [];
-    for (let i = 0; i < TOTAL_BUTTONS; i++) {
-      arr.push(getRandomColor());
-    }
-    setoptionalcolor(arr);
-    const ind = _.random(0, TOTAL_BUTTONS - 1);
-    setColor(arr[ind]);
-  }, [score]);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       // setScore(0);
@@ -71,21 +86,41 @@ function App() {
     setOpen(false);
   };
 
+  function reGenerate() {
+    const arr = [];
+    for (let i = 0; i < TOTAL_BUTTONS; i++) {
+      arr.push(getRandomColor());
+    }
+    setoptionalcolor(arr);
+    const ind = _.random(0, TOTAL_BUTTONS - 1);
+    setColor(arr[ind]);
+  }
+
   function validate(random) {
     setOpen(false);
     if (random === color) {
-      setSeverity("success");
       setScore((score) => score + 1);
+      reGenerate();
+      notify("success");
     } else {
       setSeverity("error");
       setScore((score) => score - 0.5);
+      notify("error");
     }
     setOpen(true);
   }
+  const notify = (status) => {
+    console.log(status);
+    status === "success"
+      ? toast.success("Correct!")
+      : toast.error("Incorrect!");
+  };
 
-  console.log(color);
+  // console.log(color);
   return (
-    <div style={{ border: "2px solid black" }}>
+    <div
+      style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}
+    >
       {timer === 0 ? (
         <Modal
           open={open}
@@ -110,27 +145,50 @@ function App() {
         display={"flex"}
         justifyContent={"space-between"}
         sx={{
-          height: 300,
           backgroundColor: color,
+          flexGrow: 1,
         }}
       >
         <Score score={score} timer={timer} />
         <Timer timer={timer} />
       </Box>
 
-      <ColorButton
+      <ColorButtons
         colour={color}
         validate={validate}
         optionaColor={optionaColor}
       />
 
-      <Snackbar open={open} onClose={handleClose}>
+      {/* <div>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        >
+          toast container
+        </ToastContainer>
+      </div> */}
+
+      {/* <Snackbar open={open} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
           {severity === "success" ? "Correct!!" : "Incorrect guess!"}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </div>
   );
 }
 
-export default App;
+// export default App;
+export default styled(App)`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+`;

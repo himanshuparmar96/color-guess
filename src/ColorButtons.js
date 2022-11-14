@@ -1,15 +1,16 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 
-export const ColorButton = ({ validate, optionaColor }) => {
+const ColorButtons = ({ validate, optionaColor }) => {
   return (
-    <div>
-      <Box display={"flex"} justifyContent={"space-around"} height={150}>
+    <div style={{ flexGrow: 1, height: "1px" }}>
+      <Box sx={{ display: "flex", height: "100%" }}>
         {optionaColor.map((randomColor, index) => {
           return (
             <Button
               variant="outlined"
               fullWidth
+              // sx={{ height: "100%" }}
               key={index}
               onClick={() => validate(randomColor)}
             >
@@ -21,3 +22,5 @@ export const ColorButton = ({ validate, optionaColor }) => {
     </div>
   );
 };
+
+export default ColorButtons;
