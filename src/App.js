@@ -2,24 +2,15 @@ import styled from "@emotion/styled";
 import { Box, Modal, Typography } from "@mui/material";
 import _ from "lodash";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+
 import "./App.css";
-import ColorButtons from "./ColorButtons";
-import { Score } from "./score";
-import { Timer } from "./timer";
+import { getRandomColor } from "./utils/getRandomColor";
+import { Score } from "./components/Score";
+import { Timer } from "./components/Timer";
+import { TOTAL_BUTTONS } from "./const";
+import { ColorButtons } from "./components/ColorButtons";
 
-function getRandomColor() {
-  const base = "0123456789abcdef";
-  let output = "";
-  for (let i = 0; i < 6; i++) {
-    const index = _.random(0, base.length - 1);
-    output += base[index];
-  }
-  return `#${output}`;
-}
-
-const TOTAL_BUTTONS = 5;
 // const reset = false;
 const style = {
   position: "absolute",
@@ -158,30 +149,7 @@ function App() {
         validate={validate}
         optionaColor={optionaColor}
       />
-
-      {/* <div>
-        <button onClick={notify}>Notify!</button>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        >
-          toast container
-        </ToastContainer>
-      </div> */}
-
-      {/* <Snackbar open={open} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
-          {severity === "success" ? "Correct!!" : "Incorrect guess!"}
-        </Alert>
-      </Snackbar> */}
+      <ToastContainer autoClose={2000} limit={2} position="top-center" />
     </div>
   );
 }
